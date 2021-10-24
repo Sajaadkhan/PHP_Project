@@ -4,7 +4,9 @@ USE book_store;
 CREATE TABLE BookInventory(
 Book_ID int primary key auto_increment ,
 Book_name varchar(80),
-Stock int
+Stock int,
+Price float,
+Image_url varchar(100)
 );
 
 

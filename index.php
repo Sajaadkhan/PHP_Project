@@ -11,6 +11,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="css/styles.css" rel="stylesheet" />
+    <?php
+        require("mysqli_connect.php");
+
+
+        
+
+    ?>
 </head>
 
 <body>
@@ -37,7 +44,7 @@
                     </li> -->
                 </ul>
                 <form class="d-flex">
-                    <a class="btn btn-outline-dark" href="#">
+                    <a class="btn btn-outline-dark" href="checkout.php">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
                         <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
@@ -48,7 +55,7 @@
     </nav>
     <!-- header-->
     <header id="overlay" style="position: relative;">
-        <img src="assets/cover3.jpg" style="height:90vh;width:98vw;" alt="book store cover image">
+        <img src="assets/cover3.jpg" style="height:90vh;width:100%;" alt="book store cover image">
         <div id="overText" style="position:absolute;top: 25%;left:50%;transform: translate(-50%, -25%);"
             class="container px-4 px-lg-5">
             <div class="text-center">
@@ -62,145 +69,40 @@
     <section id="bookstore"> 
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <img class="card-img-top" src="assets/php.jpg" alt="..." />
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <h5 class="fw-bolder">PHP</h5>
-                                $40.00
-                            </div>
-                        </div>
-                        <div class="text-center card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
-                            <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
-                                        class="fa fa-shopping-cart"></i></a></Span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale
-                        </div>
-                        <img class="card-img-top" src="assets/db.jpg" alt="..." />
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                               <h5 class="fw-bolder">Database</h5>
-                                $18.00
-                            </div>
-                        </div>
-                        <div class="text-center card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
-                            <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
-                                        class="fa fa-shopping-cart"></i></a></Span>
+               <?php
+              
+                $q = "select * FROM bookinventory";
+                $res=mysqli_query($dbc,$q) OR mysqli_error($dbc);
+
+           
+            while($r=mysqli_fetch_array($res)){
+
+                if(!$r['Stock']<=0){
+             echo "<div class='col mb-5'>
+                <div class='card h-100'>
+                    <img class='card-img-top' style='object-fit:cover;height:' src='".$r['Image_url']."' alt='...' />
+                    <div class='card-body p-4'>
+                        <div class='text-center'>
+                            <h5 class='fw-bolder'>".$r['Book_name']."</h5>
+                            $".$r['Price']."
                         </div>
                     </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale
-                        </div>
-                        <img class="card-img-top" src="assets/and.jpg" alt="..." />
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <h5 class="fw-bolder">Android</h5>
-                                $25.00
-                            </div>
-                        </div>
-                        <div class="card-footer text-center p-4 pt-0 border-top-0 bg-transparent">
-                            <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
-                            <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
-                                        class="fa fa-shopping-cart"></i></a></Span>
-                        </div>
+                    <div class='text-center card-footer p-4 pt-0 border-top-0 bg-transparent'>
+                        <Span class='text-center'><a class='btn btn-dark mt-auto' href='#'>Buy Now</a></span> &nbsp;
+                        <Span class='text-center'><a class='btn btn-outline-dark mt-auto'><i
+                                    class='fa fa-shopping-cart'></i></a></Span>
                     </div>
                 </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <img class="card-img-top" src="assets/ga.jpg" alt="..." />
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <h5 class="fw-bolder">Google Analytics</h5>
-                                $40.00
-                            </div>
-                        </div>
-                        <div class="card-footer text-center p-4 pt-0 border-top-0 bg-transparent">
-                            <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
-                            <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
-                                        class="fa fa-shopping-cart"></i></a></Span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale
-                        </div>
-                        <img class="card-img-top" src="assets/ps.jpg" alt="..." />
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <h5 class="fw-bolder">Photoshop</h5>
-                                $25.00
-                            </div>
-                        </div>
-                        <div class="card-footer text-center p-4 pt-0 border-top-0 bg-transparent">
-                            <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
-                            <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
-                                        class="fa fa-shopping-cart"></i></a></Span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <img class="card-img-top" src="assets/html5.jpg" alt="..." />
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <h5 class="fw-bolder">HTML5</h5>
-                                $12
-                            </div>
-                        </div>
-                        <div class="card-footer text-center p-4 pt-0 border-top-0 bg-transparent">
-                            <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
-                            <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
-                                        class="fa fa-shopping-cart"></i></a></Span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale
-                        </div>
-                        <img class="card-img-top" src="assets/py.jpg" alt="..." />
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <h5 class="fw-bolder">Python</h5>
-                                $18.00
-                            </div>
-                        </div>
-                        <div class="card-footer text-center p-4 pt-0 border-top-0 bg-transparent">
-                            <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
-                            <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
-                                        class="fa fa-shopping-cart"></i></a></Span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <img class="card-img-top" src="assets/net.jpg" alt="..." />
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <h5 class="fw-bolder">ASP.NET</h5>
-                                $22.00
-                            </div>
-                        </div>
-                        <div class="card-footer text-center p-4 pt-0 border-top-0 bg-transparent">
-                            <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
-                            <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
-                                        class="fa fa-shopping-cart"></i></a></Span>
-                        </div>
-                    </div>
-                </div>
+            </div>";
+                }
+            }
+                ?>
+            
+ 
             </div>
         </div>
     </section>
+   
     <footer class="py-5 bg-dark">
         <div class="container">
             <p class="m-0 text-center text-white">Copyright &copy; BookStore 2021</p>
