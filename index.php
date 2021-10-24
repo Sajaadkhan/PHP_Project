@@ -80,7 +80,7 @@
                 if(!$r['Stock']<=0){
              echo "<div class='col mb-5'>
                 <div class='card h-100'>
-                    <img class='card-img-top' style='object-fit:cover;height:' src='".$r['Image_url']."' alt='...' />
+                    <img class='card-img-top' style='object-fit:cover;' src='".$r['Image_url']."' alt='...' />
                     <div class='card-body p-4'>
                         <div class='text-center'>
                             <h5 class='fw-bolder'>".$r['Book_name']."</h5>
