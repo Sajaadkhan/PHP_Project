@@ -17,15 +17,15 @@
     <!-- navigation bar for the website-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#!">BookStore</a>
+            <a class="navbar-brand" href="#">BookStore</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Store</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#bookstore">Store</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="#!">About</a></li> -->
                     <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -37,11 +37,11 @@
                     </li> -->
                 </ul>
                 <form class="d-flex">
-                    <button class="btn btn-outline-dark" type="submit">
+                    <a class="btn btn-outline-dark" href="#">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
                         <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                    </button>
+                    </a>
                 </form>
             </div>
         </div>
@@ -54,12 +54,12 @@
             <div class="text-center">
                 <h1 class="display-1 fw-bolder">BookStore</h1>
                 <p class="lead fw-normal mb-2">Shop Books with BookStore</p>
-                <Span class="text-center"><a class="btn btn-dark mt-2" href="#">Go to Book Store</a></span> &nbsp;
+                <Span class="text-center"><a class="btn btn-dark mt-2" href="#bookstore">Go to Book Store</a></span> &nbsp;
             </div>
         </div>
     </header>
     <!-- Section-->
-    <section>
+    <section id="bookstore"> 
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 <div class="col mb-5">
@@ -71,7 +71,7 @@
                                 $40.00
                             </div>
                         </div>
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
                             <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
                                         class="fa fa-shopping-cart"></i></a></Span>
@@ -89,7 +89,7 @@
                                 $18.00
                             </div>
                         </div>
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
                             <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
                                         class="fa fa-shopping-cart"></i></a></Span>
@@ -107,7 +107,7 @@
                                 $25.00
                             </div>
                         </div>
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="card-footer text-center p-4 pt-0 border-top-0 bg-transparent">
                             <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
                             <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
                                         class="fa fa-shopping-cart"></i></a></Span>
@@ -123,7 +123,7 @@
                                 $40.00
                             </div>
                         </div>
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="card-footer text-center p-4 pt-0 border-top-0 bg-transparent">
                             <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
                             <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
                                         class="fa fa-shopping-cart"></i></a></Span>
@@ -141,7 +141,7 @@
                                 $25.00
                             </div>
                         </div>
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="card-footer text-center p-4 pt-0 border-top-0 bg-transparent">
                             <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
                             <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
                                         class="fa fa-shopping-cart"></i></a></Span>
@@ -157,7 +157,7 @@
                                 $12
                             </div>
                         </div>
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="card-footer text-center p-4 pt-0 border-top-0 bg-transparent">
                             <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
                             <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
                                         class="fa fa-shopping-cart"></i></a></Span>
@@ -175,7 +175,7 @@
                                 $18.00
                             </div>
                         </div>
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="card-footer text-center p-4 pt-0 border-top-0 bg-transparent">
                             <Span class="text-center"><a class="btn btn-dark mt-auto" href="#">Buy Now</a></span> &nbsp;
                             <Span class="text-center"><a class="btn btn-outline-dark mt-auto"><i
                                         class="fa fa-shopping-cart"></i></a></Span>
