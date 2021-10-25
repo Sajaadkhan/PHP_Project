@@ -14,6 +14,9 @@ CREATE TABLE BookOrders(
 order_id int auto_increment primary key,
 custFirstName varchar(40),
 custLastName varchar(40),
+Phone_Number varchar(20),
+Card_Type varchar(20),
+Card_Number varchar(20),
 Book_ID int,
 foreign key(Book_ID) references BookInventory(Book_ID)
 );

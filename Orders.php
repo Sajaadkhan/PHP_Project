@@ -111,71 +111,7 @@
 
         </div>
         <div class="container px-5 my-5 col-md-6">
-        <h4><b>Payment Details</b></h4>
-            <form id="contactForm" action="checkout.php" method="POST">
-                <div class="mb-3">
-                    <label class="form-label" for="firstName">First Name</label>
-                    <input class="form-control" id="firstName" name="firstName" type="text" placeholder="First Name"
-                        data-sb-validations="required" />
-                    <div class="invalid-feedback" data-sb-feedback="firstName:required">First Name is required.</div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="lastName">Last Name</label>
-                    <input class="form-control" id="lastName" name="lastName" type="text" placeholder="Last Name"
-                        data-sb-validations="required" />
-                    <div class="invalid-feedback" data-sb-feedback="lastName:required">Last Name is required.</div>
-                </div>
-                <!-- <div class="mb-3">
-                    <label class="form-label" for="address">Address</label>
-                    <input class="form-control" id="address" type="text" placeholder="Address"
-                        data-sb-validations="required" />
-                    <div class="invalid-feedback" data-sb-feedback="address:required">Address is required.</div>
-                </div> -->
-                <input  value="<?php if(isset($_GET['Book_ID'])){echo $_GET['Book_ID']; }?>" name="Book_ID" type="hidden">
-                <div class="mb-3">
-                
-                    <label class="form-label" for="phoneNumber">Phone Number</label>
-                    <input class="form-control" id="phoneNumber" name="phoneNumber" type="text" placeholder="Phone Number"
-                        data-sb-validations="required" />
-                    <div class="invalid-feedback" data-sb-feedback="phoneNumber:required">Phone Number is required.
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label d-block">Card </label>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" id="visa" type="radio" value="Visa" name="card" checked data-sb-validations="" />
-                        <label class="form-check-label" for="visa">Visa</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" id="debit" type="radio" value="Debit" name="card" data-sb-validations="" />
-                        <label class="form-check-label" for="debit">Debit</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" id="mastercard" type="radio" value="Mastercard" name="card"
-                            data-sb-validations="" />
-                        <label class="form-check-label" for="mastercard">Mastercard</label>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="cardNumber">Card Number</label>
-                    <input class="form-control" id="cardNumber" name="cardNumber" type="text" placeholder="Card Number"
-                        data-sb-validations="required" />
-                    <div class="invalid-feedback" data-sb-feedback="cardNumber:required">Card Number is required.</div>
-                </div>
-                <div class="d-none" id="submitSuccessMessage">
-                    <div class="text-center mb-3">
-                        <div class="fw-bolder">Form submission successful!</div>
-                        <!-- <p>To activate this form, sign up at</p>
-                <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a> -->
-                    </div>
-                </div>
-                <div class="d-none" id="submitErrorMessage">
-                    <div class="text-center text-danger mb-3">Error sending message!</div>
-                </div>
-                <div class="d-grid">
-                    <button class="btn btn-dark btn-lg" id="submitButton" type="submit">Submit</button>
-                </div>
-            </form>
+        ?
 
                 <?php
                   if($_SERVER['REQUEST_METHOD']=="POST"){
