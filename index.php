@@ -14,9 +14,6 @@
     <?php
         require("mysqli_connect.php");
 
-
-        
-
     ?>
 </head>
 
@@ -80,7 +77,7 @@
                 if(!$r['Stock']<=0){
              echo "<div class='col mb-5'>
                 <div class='card h-100'>
-                    <img class='card-img-top' style='object-fit:cover;' src='".$r['Image_url']."' alt='...' />
+                 <a href='checkout.php?Book_ID=".$r['Book_ID']."'><img class='card-img-top' style='object-fit:cover;' src='".$r['Image_url']."' alt='...' /></a>
                     <div class='card-body p-4'>
                         <div class='text-center'>
                             <h5 class='fw-bolder'>".$r['Book_name']."</h5>
@@ -88,7 +85,7 @@
                         </div>
                     </div>
                     <div class='text-center card-footer p-4 pt-0 border-top-0 bg-transparent'>
-                        <Span class='text-center'><a class='btn btn-dark mt-auto' href='#'>Buy Now</a></span> &nbsp;
+                        <Span class='text-center'><a class='btn btn-dark mt-auto' href='checkout.php?Book_ID=".$r['Book_ID']."'>Buy Now</a></span> &nbsp;
                         <Span class='text-center'><a class='btn btn-outline-dark mt-auto'><i
                                     class='fa fa-shopping-cart'></i></a></Span>
                     </div>

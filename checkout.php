@@ -47,11 +47,70 @@
         </div>
     </nav>
     <section class="row">
-        <div class="col-md-6">
-       
-                        
+        <div class="col-md-6 px-5 my-5">
+            <div class="card border-top">
+                <div class="row">
+                    <div class="col cart px-4">
+                        <div class="title">
+                            <div class="row">
+                                <div class="col p-2">
+                                    <h4><b>Item Details</b></h4>
+                                </div>
+                              
+                            </div>
+                        </div>
+            <?php
+                require("mysqli_connect.php");
+                if(isset($_GET['Book_ID']))
+                {
+                    $total_price=0;
+                    $book_id=$_GET['Book_ID'];
+                $q = "select * FROM bookinventory where Book_ID=$book_id";
+                $res=mysqli_query($dbc,$q) OR mysqli_error($dbc);
+
+           
+                   while($r=mysqli_fetch_array($res)){
+                            $total_price+=$r['Price'];          
+                    echo " <div class='row p-2 border-top border-bottom'>
+                    <div class='row main align-items-center'>
+                        <div class='col-2'><img class='img-fluid' src='".$r['Image_url']."'></div>
+                        <div class='col'>
+                            <div class='row'>".$r['Book_name']."</div>
+                        </div>
+
+                        <div class='col text-center'>$".$r['Price']."</div>
+                    </div>
+                </div>";
+                
+                      }
+                      echo "<div class='container fw-bolder p-2'> Total Price : $$total_price</div>";
+                      
+
+             
+              }
+
+
+            ?>
+
+
+                        <!-- <div class="row border-top border-bottom">
+                            <div class="row main align-items-center">
+                                <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/1GrakTl.jpg"></div>
+                                <div class="col">
+                                    <div class="row">Cotton T-shirt</div>
+                                </div>
+
+                                <div class="col text-center">$ 44.00 </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
         </div>
         <div class="container px-5 my-5 col-md-6">
+        <h4><b>Payment Details</b></h4>
             <form id="contactForm" action="form.php" method="POST">
                 <div class="mb-3">
                     <label class="form-label" for="firstName">First Name</label>
