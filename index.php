@@ -60,7 +60,7 @@
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#bookstore">Store</a></li>
                     <li class="nav-item"><a class="nav-link" href="orders.php">Orders</a></li>
                     <!-- <li class="nav-item dropdown">
@@ -74,7 +74,7 @@
                     </li> -->
                 </ul>
                 <form class="d-flex">
-                    <a class="btn btn-outline-dark" href="checkout.php">
+                    <a class="btn btn-outline-dark" href="checkout.php?page=cart">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
                         <span class="badge bg-dark text-white ms-1 rounded-pill"><?php echo count($_SESSION['cart_item']);  ?></span>

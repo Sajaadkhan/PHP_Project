@@ -39,7 +39,7 @@
                     </li> -->
                 </ul>
                 <form class="d-flex">
-                    <a class="btn btn-outline-dark" href="checkout.php">
+                    <a class="btn btn-outline-dark" href="checkout.php?page=cart">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
                         <span
@@ -237,8 +237,11 @@
                         else 
                         {
                             echo  '<script>alert("Failed!! All fields are required. ");</script>';
+                            echo("<script>location.href = 'checkout.php';</script>");
+                            if($_GET['page']!='cart'){
+                           
                             echo("<script>location.href = 'checkout.php?Book_ID=$book_id';</script>");
-                            
+                            }
                         }
                      
                     }               

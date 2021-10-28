@@ -39,7 +39,7 @@
                     </li> -->
                 </ul>
                 <form class="d-flex">
-                    <a class="btn btn-outline-dark" href="checkout.php">
+                    <a class="btn btn-outline-dark" href="checkout.php?page=cart">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
                         <span class="badge bg-dark text-white ms-1 rounded-pill"><?php echo count($_SESSION['cart_item']);?></span>
