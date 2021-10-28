@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="css/styles.css" rel="stylesheet" />
+    <?php session_start(); ?>
 </head>
 
 <body>
@@ -41,7 +42,8 @@
                     <a class="btn btn-outline-dark" href="checkout.php">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        <span
+                            class="badge bg-dark text-white ms-1 rounded-pill"><?php echo count($_SESSION['cart_item']);  ?></span>
                     </a>
                 </form>
             </div>
@@ -57,12 +59,12 @@
                                 <div class="col p-2">
                                     <h4><b>Item Details</b></h4>
                                 </div>
-                              
+
                             </div>
                         </div>
-            <?php
+                        <?php
                 require("mysqli_connect.php");
-                session_start();
+              
                 if(isset($_GET['Book_ID']))
                 {
                     $total_price=0;
@@ -131,7 +133,7 @@
 
         </div>
         <div class="container px-5 my-5 col-md-6">
-        <h4><b>Payment Details</b></h4>
+            <h4><b>Payment Details</b></h4>
             <form id="contactForm" action="checkout.php" method="POST">
                 <div class="mb-3">
                     <label class="form-label" for="firstName">First Name</label>
@@ -151,16 +153,19 @@
                         data-sb-validations="required" />
                     <div class="invalid-feedback" data-sb-feedback="address:required">Address is required.</div>
                 </div> -->
-                <input  value="<?php if(isset($_GET['Book_ID'])){echo $_GET['Book_ID']; }?>" name="Book_ID" type="hidden">
-                
+                <input value="<?php if(isset($_GET['Book_ID'])){echo $_GET['Book_ID']; }?>" name="Book_ID"
+                    type="hidden">
+
                 <div class="mb-3">
                     <label class="form-label d-block">Card </label>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" id="visa" type="radio" value="Visa" name="card" checked data-sb-validations="" />
+                        <input class="form-check-input" id="visa" type="radio" value="Visa" name="card" checked
+                            data-sb-validations="" />
                         <label class="form-check-label" for="visa">Visa</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" id="debit" type="radio" value="Debit" name="card" data-sb-validations="" />
+                        <input class="form-check-input" id="debit" type="radio" value="Debit" name="card"
+                            data-sb-validations="" />
                         <label class="form-check-label" for="debit">Debit</label>
                     </div>
                     <div class="form-check form-check-inline">
@@ -190,40 +195,53 @@
                 </div>
             </form>
 
-                <?php
-                  if($_SERVER['REQUEST_METHOD']=="POST")
-                  {
-                    $first_name=filter_var($_POST['firstName'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                    $Last_name=filter_var($_POST['lastName'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            <?php
+                    if($_SERVER['REQUEST_METHOD']=="POST" )
+                    {
+                      
+                        $first_name=filter_var($_POST['firstName'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                        $Last_name=filter_var($_POST['lastName'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                        
+                        $cardT=filter_var($_POST['card'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                        $cardN=filter_var($_POST['cardNumber'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                        $book_id=filter_var($_POST['Book_ID'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                     
-                    $cardT=filter_var($_POST['card'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                    $cardN=filter_var($_POST['cardNumber'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                    $book_id=filter_var($_POST['Book_ID'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                        if(!empty($first_name) && !empty($Last_name) && !empty($cardN))
+                        {
+                            $query11="SELECT * FROM bookinventory Where Book_ID=$book_id";
+                            $res=mysqli_query($dbc,$query11) OR mysqli_error($dbc);
+                            $r=mysqli_fetch_array($res);
+                    
+                            if(!$r['Stock'] <=0)
+                            {
 
-                    $query11="SELECT * FROM bookinventory Where Book_ID=$book_id";
-                    $res=mysqli_query($dbc,$query11) OR mysqli_error($dbc);
-                    $r=mysqli_fetch_array($res);
-                   
-                    if(!$r['Stock'] <=0){
+                                $q="INSERT INTO bookorders VALUES(null,?,?,?,?,Now(),?)";
+                                $stmt=mysqli_prepare($dbc,$q);
+                                mysqli_stmt_bind_param($stmt,'ssssi',$first_name,$Last_name,$cardT,$cardN,$book_id);
+                                mysqli_stmt_execute($stmt);
+                                echo mysqli_insert_id($dbc);
 
-                    $q="INSERT INTO bookorders VALUES(null,?,?,?,?,Now(),?)";
-                    $stmt=mysqli_prepare($dbc,$q);
-                    mysqli_stmt_bind_param($stmt,'ssssi',$first_name,$Last_name,$cardT,$cardN,$book_id);
-                    mysqli_stmt_execute($stmt);
-                    echo mysqli_insert_id($dbc);
-
-                    $q2="UPDATE bookinventory SET Stock=Stock-1 WHERE Book_ID=?";
-                    $stm=mysqli_prepare($dbc,$q2);
-                    mysqli_stmt_bind_param($stm,'i',$book_id);
-                    mysqli_stmt_execute($stm);
-               
-                    echo '<script>alert("Thank You! Order Successfully Placed.");
-                    window.location.href = "Orders.php";</script>';                 
-                    }
-                    else{
-                        echo '<script>alert("Sorry! No more items in the stock.")</script>';
-                    } 
-                  }               
+                                $q2="UPDATE bookinventory SET Stock=Stock-1 WHERE Book_ID=?";
+                                $stm=mysqli_prepare($dbc,$q2);
+                                mysqli_stmt_bind_param($stm,'i',$book_id);
+                                mysqli_stmt_execute($stm);
+                        
+                                echo '<script>alert("Thank You! Order Successfully Placed.");
+                                window.location.href = "Orders.php";</script>';                 
+                            }
+                            else
+                            {
+                                echo '<script>alert("Sorry! No more items in the stock.")</script>';
+                            } 
+                        }
+                        else 
+                        {
+                            echo  '<script>alert("Failed!! All fields are required. ");</script>';
+                            echo("<script>location.href = 'checkout.php?Book_ID=$book_id';</script>");
+                            
+                        }
+                     
+                    }               
                 ?>
 
 

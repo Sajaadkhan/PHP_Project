@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="css/styles.css" rel="stylesheet" />
+    <?php session_start(); ?>
 </head>
 
 <body>
@@ -41,7 +42,7 @@
                     <a class="btn btn-outline-dark" href="checkout.php">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        <span class="badge bg-dark text-white ms-1 rounded-pill"><?php echo count($_SESSION['cart_item']);?></span>
                     </a>
                 </form>
             </div>
@@ -85,6 +86,7 @@
                 require("mysqli_connect.php");
                 $q = "select * FROM bookorders JOIN bookinventory using(Book_ID)
                 order by order_id";
+            
                 $res=mysqli_query($dbc,$q) OR mysqli_error($dbc);
 
            
