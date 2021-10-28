@@ -25,6 +25,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php#bookstore">Store</a></li>
+                    <li class="nav-item"><a class="nav-link" href="orders.php">Orders</a></li>
                     <!-- <li class="nav-item"><a class="nav-link" href="#!">About</a></li> -->
                     <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
@@ -61,6 +62,7 @@
                         </div>
             <?php
                 require("mysqli_connect.php");
+                session_start();
                 if(isset($_GET['Book_ID']))
                 {
                     $total_price=0;
@@ -83,11 +85,29 @@
                 </div>";
                 
                       }
+                    
                       echo "<div class='container fw-bolder p-2'> Total Price : $$total_price</div>";
 
               }
               else{
-                  echo "Cart empty";
+                   if(isset($_SESSION['cart_item']) && !empty($_SESSION['cart_item'])){
+                        $total_P=0;
+                    foreach ($_SESSION["cart_item"] as $item){
+                        $total_P=$total_P+$item['Book_price'];
+                        echo " <div class='row p-2 border-top border-bottom'>
+                        <div class='row main align-items-center'>
+                            <div class='col-2'><img class='img-fluid' src='".$item['Book_url']."'></div>
+                            <div class='col'>
+                                <div class='row'>".$item['Book_name']."</div>
+                            </div>
+    
+                            <div class='col text-center'>$".$item['Book_price']."</div>
+                        </div>
+                    </div>";
+                    }
+                    $_SESSION['total_P']=$total_P;
+                    echo "<div class='container fw-bolder p-2'> Total Price : $$total_P</div>";
+                   }
               }
 
 
@@ -132,14 +152,7 @@
                     <div class="invalid-feedback" data-sb-feedback="address:required">Address is required.</div>
                 </div> -->
                 <input  value="<?php if(isset($_GET['Book_ID'])){echo $_GET['Book_ID']; }?>" name="Book_ID" type="hidden">
-                <div class="mb-3">
                 
-                    <label class="form-label" for="phoneNumber">Phone Number</label>
-                    <input class="form-control" id="phoneNumber" name="phoneNumber" type="text" placeholder="Phone Number"
-                        data-sb-validations="required" />
-                    <div class="invalid-feedback" data-sb-feedback="phoneNumber:required">Phone Number is required.
-                    </div>
-                </div>
                 <div class="mb-3">
                     <label class="form-label d-block">Card </label>
                     <div class="form-check form-check-inline">
@@ -178,10 +191,11 @@
             </form>
 
                 <?php
-                  if($_SERVER['REQUEST_METHOD']=="POST"){
+                  if($_SERVER['REQUEST_METHOD']=="POST")
+                  {
                     $first_name=filter_var($_POST['firstName'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                     $Last_name=filter_var($_POST['lastName'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                    $phone=filter_var($_POST['phoneNumber'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                    
                     $cardT=filter_var($_POST['card'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                     $cardN=filter_var($_POST['cardNumber'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                     $book_id=filter_var($_POST['Book_ID'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -192,25 +206,24 @@
                    
                     if(!$r['Stock'] <=0){
 
-                    $q="INSERT INTO bookorders VALUES(null,?,?,?,?,?,?)";
+                    $q="INSERT INTO bookorders VALUES(null,?,?,?,?,Now(),?)";
                     $stmt=mysqli_prepare($dbc,$q);
-                    mysqli_stmt_bind_param($stmt,'sssssi',$first_name,$Last_name,$phone,$cardT,$cardN,$book_id);
+                    mysqli_stmt_bind_param($stmt,'ssssi',$first_name,$Last_name,$cardT,$cardN,$book_id);
                     mysqli_stmt_execute($stmt);
                     echo mysqli_insert_id($dbc);
 
-                   $q2="UPDATE bookinventory SET Stock=Stock-1 WHERE Book_ID=?";
-                   $stm=mysqli_prepare($dbc,$q2);
-                   mysqli_stmt_bind_param($stm,'i',$book_id);
-                   mysqli_stmt_execute($stm);
-
-                
-                   echo '<script>alert("Thank You! Order Successfully Placed.")</script>';
-                  
-                  }
-                  else{
-                      echo '<script>alert("Sorry! No more items in the stock.")</script>';
-                  } 
-                }               
+                    $q2="UPDATE bookinventory SET Stock=Stock-1 WHERE Book_ID=?";
+                    $stm=mysqli_prepare($dbc,$q2);
+                    mysqli_stmt_bind_param($stm,'i',$book_id);
+                    mysqli_stmt_execute($stm);
+               
+                    echo '<script>alert("Thank You! Order Successfully Placed.");
+                    window.location.href = "Orders.php";</script>';                 
+                    }
+                    else{
+                        echo '<script>alert("Sorry! No more items in the stock.")</script>';
+                    } 
+                  }               
                 ?>
 
 

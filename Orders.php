@@ -25,6 +25,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php#bookstore">Store</a></li>
+                    <li class="nav-item"><a class="nav-link" href="orders.php">Orders</a></li>
                     <!-- <li class="nav-item"><a class="nav-link" href="#!">About</a></li> -->
                     <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
@@ -47,7 +48,7 @@
         </div>
     </nav>
     <section class="row">
-        <div class="col-md-6 px-5 my-5">
+        <div class="col-12 px-5 my-5">
             <div class="card border-top">
                 <div class="row">
                     <div class="col cart px-4">
@@ -56,54 +57,62 @@
                                 <div class="col p-2">
                                     <h4><b>Item Details</b></h4>
                                 </div>
-                              
+                                                             
                             </div>
+                            <div class="row">
+                                <div class="col text-center">
+                                    <h6><b>S.NO</b></h6>
+                                </div>
+                                <div class="col text-center">
+                                    <h6><b>Name</b></h6>
+                                </div>
+                               
+                                <div class="col text-center">
+                                    <h6><b>Book Ordered</b></h6>
+                                </div>
+                                <div class="col text-center ">
+                                    <h6><b>Price</b></h6>
+                                </div>
+                                <div class="col text-center">
+                                    <h6><b>Order Time</b></h6>
+                                </div>
+                               
+                                                             
+                            </div>
+
                         </div>
             <?php
                 require("mysqli_connect.php");
-                if(isset($_GET['Book_ID']))
-                {
-                    $total_price=0;
-                    $book_id=$_GET['Book_ID'];
-                $q = "select * FROM bookinventory where Book_ID=$book_id";
+                $q = "select * FROM bookorders JOIN bookinventory using(Book_ID)
+                order by order_id";
                 $res=mysqli_query($dbc,$q) OR mysqli_error($dbc);
 
            
-                   while($r=mysqli_fetch_array($res)){
-                            $total_price+=$r['Price'];          
-                    echo " <div class='row p-2 border-top border-bottom'>
-                    <div class='row main align-items-center'>
-                        <div class='col-2'><img class='img-fluid' src='".$r['Image_url']."'></div>
-                        <div class='col'>
-                            <div class='row'>".$r['Book_name']."</div>
+            while($r=mysqli_fetch_array($res)){
+                echo " <div class='row p-2 border-top border-bottom'>
+                    <div class='row main align-items-center '>
+                    <div class='col p-2 '>
+                    <div class='text-center'>".$r['order_id']."</div>
                         </div>
-
-                        <div class='col text-center'>$".$r['Price']."</div>
+                        <div class='col p-2'> 
+                        <div class='text-center'>".$r['custFirstName']." ".$r['custLastName']. "</div>
+                        </div>
+                       
+                        <div class='col p-2'>
+                        <div class='text-center'>".$r['Book_name']."</div>
+                        </div>
+                        <div class='col p-2'>
+                        <div class='text-center'> $".$r['Price']."</div>
+                        </div>    
+                        <div class='col p-2'>
+                        <div class='text-center'>".$r['Ordered_On']."</div>
+                        </div>                  
                     </div>
                 </div>";
-                
-                      }
-                      echo "<div class='container fw-bolder p-2'> Total Price : $$total_price</div>";
-
-              }
-              else{
-                  echo "Cart empty";
-              }
-
+            }
+               
 
             ?>
-
-
-                        <!-- <div class="row border-top border-bottom">
-                            <div class="row main align-items-center">
-                                <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/1GrakTl.jpg"></div>
-                                <div class="col">
-                                    <div class="row">Cotton T-shirt</div>
-                                </div>
-
-                                <div class="col text-center">$ 44.00 </div>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
             </div>
@@ -111,46 +120,6 @@
 
         </div>
         <div class="container px-5 my-5 col-md-6">
-        ?
-
-                <?php
-                  if($_SERVER['REQUEST_METHOD']=="POST"){
-                    $first_name=filter_var($_POST['firstName'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                    $Last_name=filter_var($_POST['lastName'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                    $phone=filter_var($_POST['phoneNumber'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                    $cardT=filter_var($_POST['card'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                    $cardN=filter_var($_POST['cardNumber'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                    $book_id=filter_var($_POST['Book_ID'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-                    $query11="SELECT * FROM bookinventory Where Book_ID=$book_id";
-                    $res=mysqli_query($dbc,$query11) OR mysqli_error($dbc);
-                    $r=mysqli_fetch_array($res);
-                   
-                    if(!$r['Stock'] <=0){
-
-                    $q="INSERT INTO bookorders VALUES(null,?,?,?,?,?,?)";
-                    $stmt=mysqli_prepare($dbc,$q);
-                    mysqli_stmt_bind_param($stmt,'sssssi',$first_name,$Last_name,$phone,$cardT,$cardN,$book_id);
-                    mysqli_stmt_execute($stmt);
-                    echo mysqli_insert_id($dbc);
-
-                   $q2="UPDATE bookinventory SET Stock=Stock-1 WHERE Book_ID=?";
-                   $stm=mysqli_prepare($dbc,$q2);
-                   mysqli_stmt_bind_param($stm,'i',$book_id);
-                   mysqli_stmt_execute($stm);
-
-                
-                   echo '<script>alert("Thank You! Order Successfully Placed.")</script>';
-                  
-                  }
-                  else{
-                      echo '<script>alert("Sorry! No more items in the stock.")</script>';
-                  } 
-                }               
-                ?>
-
-
-
         </div>
     </section>
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>

@@ -14,7 +14,36 @@
     
     <?php
         require("mysqli_connect.php");
+        session_start();
+        if(isset($_GET['action']) && $_GET['action']=='addToCart'){
+            
+            echo "<script> alert('added to cart');</script>";
+            $bookid=$_GET['Book_ID'];
+            $q = "select * FROM bookinventory where Book_ID=$bookid";
+            $res=mysqli_query($dbc,$q) OR mysqli_error($dbc);
 
+       
+            $r=mysqli_fetch_array($res);
+            $bookName=$r['Book_name'];
+            $bookPrice=$r['Price'];
+            $bookImg=$r['Image_url'];
+
+            $itemArray=array($bookid=>array('Book_name'=>$bookName,'Book_url'=>$bookImg,'Book_price'=>$bookPrice));
+         
+            if(!isset($_SESSION['cart_item']) || empty($_SESSION['cart_item'])){
+
+
+                $_SESSION["cart_item"] = $itemArray;
+            }
+            else{
+                $_SESSION["cart_item"] = array_merge($_SESSION["cart_item"],$itemArray);
+            }
+         
+
+                
+
+        }
+        
     ?>
 
 </head>
@@ -33,7 +62,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#bookstore">Store</a></li>
-                    <!-- <li class="nav-item"><a class="nav-link" href="#!">About</a></li> -->
+                    <li class="nav-item"><a class="nav-link" href="orders.php">Orders</a></li>
                     <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -63,7 +92,7 @@
             <div class="text-center">
                 <h1 class="display-1 fw-bolder">BookStore</h1>
                 <p class="lead fw-normal mb-2">Shop Books with BookStore</p>
-                <Span class="text-center"><a class="btn btn-dark mt-2" href="#bookstore">Go to Book Store</a></span> &nbsp;
+                <Span class="text-center"><a class="btn btn-outline-dark mt-2 fw-bold " href="#bookstore">Go to Book Store</a></span> &nbsp;
             </div>
         </div>
     </header>
@@ -90,8 +119,8 @@
                         </div>
                     </div>
                     <div class='text-center card-footer p-4 pt-0 border-top-0 bg-transparent'>
-                        <Span class='text-center'><a class='btn btn-dark mt-auto' href='checkout.php?Book_ID=".$r['Book_ID']."'>Buy Now</a></span> &nbsp;
-                        <Span class='text-center'><a class='btn btn-outline-dark mt-auto'><i
+                        <Span class='text-center'><a class='btn btn-outline-dark mt-auto' href='checkout.php?Book_ID=".$r['Book_ID']."'>Buy Now</a></span> &nbsp;
+                        <Span class='text-center'><a class='btn btn-outline-dark mt-auto' href='index.php?action=addToCart&Book_ID=".$r['Book_ID']."'><i
                                     class='fa fa-shopping-cart'></i></a></Span>
                     </div>
                 </div>

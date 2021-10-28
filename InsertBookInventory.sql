@@ -10,5 +10,5 @@ INSERT INTO bookinventory VALUES(NULL,'PHP 6.0',7,28,"assets/php.jpg"),
 (null,'ASP.NET',5,23,"assets/net.jpg");
 
 INSERT INTO bookorders VALUES
-(NULL,'Sajaad','Khan',"5197813138","Visa","1212121223232334",7),
-(null,'Arshdeep','Singh',"2342342323","Visa","2323343421231232",5);
+(NULL,'Sajaad','Khan',"5197813138","Visa","1212121223232334","2021-10-24 09:00:00",7),
+(null,'Arshdeep','Singh',"2342342323","Visa","2323343421231232","2021-10-24 10:00:00",5);
