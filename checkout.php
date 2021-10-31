@@ -116,18 +116,6 @@
 
 
             ?>
-
-
-                        <!-- <div class="row border-top border-bottom">
-                            <div class="row main align-items-center">
-                                <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/1GrakTl.jpg"></div>
-                                <div class="col">
-                                    <div class="row">Cotton T-shirt</div>
-                                </div>
-
-                                <div class="col text-center">$ 44.00 </div>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
             </div>
@@ -140,21 +128,15 @@
                 <div class="mb-3">
                     <label class="form-label" for="firstName">First Name</label>
                     <input class="form-control" id="firstName" name="firstName" type="text" placeholder="First Name"
-                        data-sb-validations="required" />
-                    <div class="invalid-feedback" data-sb-feedback="firstName:required">First Name is required.</div>
+                    value="<?php if (isset($_POST['firstName'])) echo $_POST['firstName']; ?>"/>
+                    
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="lastName">Last Name</label>
                     <input class="form-control" id="lastName" name="lastName" type="text" placeholder="Last Name"
                         data-sb-validations="required" />
-                    <div class="invalid-feedback" data-sb-feedback="lastName:required">Last Name is required.</div>
+                    
                 </div>
-                <!-- <div class="mb-3">
-                    <label class="form-label" for="address">Address</label>
-                    <input class="form-control" id="address" type="text" placeholder="Address"
-                        data-sb-validations="required" />
-                    <div class="invalid-feedback" data-sb-feedback="address:required">Address is required.</div>
-                </div> -->
                 <input value="<?php if(isset($_GET['Book_ID'])){echo $_GET['Book_ID']; }?>" name="Book_ID"
                     type="hidden">
 
@@ -180,7 +162,7 @@
                     <label class="form-label" for="cardNumber">Card Number</label>
                     <input class="form-control" id="cardNumber" name="cardNumber" type="text" placeholder="Card Number"
                         data-sb-validations="required" />
-                    <div class="invalid-feedback" data-sb-feedback="cardNumber:required">Card Number is required.</div>
+                  
                 </div>
                 <div class="d-none" id="submitSuccessMessage">
                     <div class="text-center mb-3">
@@ -200,6 +182,7 @@
                     if($_SERVER['REQUEST_METHOD']=="POST")
                     {
                       
+                   
                         $first_name=filter_var($_POST['firstName'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                         $Last_name=filter_var($_POST['lastName'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);                        
                         $cardT=filter_var($_POST['card'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -238,7 +221,7 @@
                         else 
                         {
                             echo  '<script>alert("Failed!! All fields are required. ");</script>';                           
-                            echo("<script>location.href = 'checkout.php?Book_ID=$book_id';</script>");
+                            echo("<script>location.href = 'checkout.php?Book_ID=$book_id';</script>"); 
                             
                         }
                      
