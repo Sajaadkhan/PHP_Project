@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Shop Homepage - Start Bootstrap Template</title>
+    <title>BookStore:Orders</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -27,22 +27,13 @@
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php#bookstore">Store</a></li>
                     <li class="nav-item"><a class="nav-link" href="orders.php">Orders</a></li>
-                    <!-- <li class="nav-item"><a class="nav-link" href="#!">About</a></li> -->
-                    <!-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                    </li> -->
                 </ul>
                 <form class="d-flex">
-                    <a class="btn btn-outline-dark" href="checkout.php?page=cart">
+                    <a class="btn btn-outline-dark" href="cartCheckout.php">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill"><?php echo count($_SESSION['cart_item']);?></span>
+                        <span
+                            class="badge bg-dark text-white ms-1 rounded-pill"><?php if(isset($_SESSION['cart_item'])){ echo count($_SESSION['cart_item']); } else{ echo "0";} ?></span>
                     </a>
                 </form>
             </div>
@@ -58,7 +49,7 @@
                                 <div class="col p-2">
                                     <h4><b>Item Details</b></h4>
                                 </div>
-                                                             
+
                             </div>
                             <div class="row">
                                 <div class="col text-center">
@@ -67,7 +58,7 @@
                                 <div class="col text-center">
                                     <h6><b>Name</b></h6>
                                 </div>
-                               
+
                                 <div class="col text-center">
                                     <h6><b>Book Ordered</b></h6>
                                 </div>
@@ -77,12 +68,12 @@
                                 <div class="col text-center">
                                     <h6><b>Order Time</b></h6>
                                 </div>
-                               
-                                                             
+
+
                             </div>
 
                         </div>
-            <?php
+                        <?php
                 require("mysqli_connect.php");
                 $q = "select * FROM bookorders JOIN bookinventory using(Book_ID)
                 order by order_id";

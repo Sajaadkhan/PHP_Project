@@ -64,32 +64,7 @@
                         </div>
                         <?php
                 require("mysqli_connect.php");
-                if(isset($_GET['Book_ID']))
-                {
-                    $total_price=0;
-                    $book_id=$_GET['Book_ID'];
-                $q = "select * FROM bookinventory where Book_ID=$book_id";
-                $res=mysqli_query($dbc,$q) OR mysqli_error($dbc);
-
-                   while($r=mysqli_fetch_array($res)){
-                            $total_price+=$r['Price'];          
-                    echo " <div class='row p-2 border-top border-bottom'>
-                    <div class='row main align-items-center'>
-                        <div class='col-2'><img class='img-fluid' src='".$r['Image_url']."'></div>
-                        <div class='col'>
-                            <div class='row'>".$r['Book_name']."</div>
-                        </div>
-
-                        <div class='col text-center'>$".$r['Price']."</div>
-                    </div>
-                </div>";
-                
-                      }
-                    
-                      echo "<div class='container fw-bolder p-2'> Total Price : $$total_price</div>";
-
-              }
-              else{
+              
                    if(isset($_SESSION['cart_item']) && !empty($_SESSION['cart_item'])){
                         $total_P=0;
                     foreach ($_SESSION["cart_item"] as $item){
@@ -112,7 +87,7 @@
                        echo "<h4> Cart empty</h4>";
 
                    }
-              }
+              
 
 
             ?>
@@ -136,7 +111,7 @@
         </div>
         <div class="container px-5 my-5 col-md-6">
             <h4><b>Payment Details</b></h4>
-            <form id="contactForm" action="checkout.php" method="POST">
+            <form id="contactForm" action="cartCheckout.php" method="POST">
                 <div class="mb-3">
                     <label class="form-label" for="firstName">First Name</label>
                     <input class="form-control" id="firstName" name="firstName" type="text" placeholder="First Name"
@@ -155,8 +130,8 @@
                         data-sb-validations="required" />
                     <div class="invalid-feedback" data-sb-feedback="address:required">Address is required.</div>
                 </div> -->
-                <input value="<?php if(isset($_GET['Book_ID'])){echo $_GET['Book_ID']; }?>" name="Book_ID"
-                    type="hidden">
+                <!-- <input value="<?php //if(isset($_GET['Book_ID'])){echo $_GET['Book_ID']; }?>" name="Book_ID"
+                    type="hidden"> -->
 
                 <div class="mb-3">
                     <label class="form-label d-block">Card </label>
@@ -204,45 +179,62 @@
                         $Last_name=filter_var($_POST['lastName'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);                        
                         $cardT=filter_var($_POST['card'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                         $cardN=filter_var($_POST['cardNumber'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                        $book_id=filter_var($_POST['Book_ID'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                       
                     
                         if(!empty($first_name) && !empty($Last_name) && !empty($cardN))
                         {
-                            $query11="SELECT * FROM bookinventory Where Book_ID=$book_id";
-                            $res=mysqli_query($dbc,$query11) OR mysqli_error($dbc);
-                            $r=mysqli_fetch_array($res);
-                    
-                            if(!$r['Stock'] <=0)
+                            if(isset($_SESSION['cart_item']) && !empty($_SESSION['cart_item']) )
                             {
+                                foreach ($_SESSION["cart_item"] as $item)
+                                {
+                                
+                                    $bookidvar=$item['Book_ID'];
 
-                                $q="INSERT INTO bookorders VALUES(null,?,?,?,?,Now(),?)";
-                                $stmt=mysqli_prepare($dbc,$q);
-                                mysqli_stmt_bind_param($stmt,'ssssi',$first_name,$Last_name,$cardT,$cardN,$book_id);
-                                mysqli_stmt_execute($stmt);
-                                echo mysqli_insert_id($dbc);
+                                    $query11="SELECT * FROM bookinventory Where Book_ID=$bookidvar";
+                                    $res=mysqli_query($dbc,$query11) OR mysqli_error($dbc);
+                                    $r=mysqli_fetch_array($res);
+                            
+                                    if(!$r['Stock'] <=0)
+                                    {
 
-                                $q2="UPDATE bookinventory SET Stock=Stock-1 WHERE Book_ID=?";
-                                $stm=mysqli_prepare($dbc,$q2);
-                                mysqli_stmt_bind_param($stm,'i',$book_id);
-                                mysqli_stmt_execute($stm);
-                        
-                                echo '<script>alert("Thank You! Order Successfully Placed.");
-                                window.location.href = "Orders.php";</script>';                 
+                                        $q="INSERT INTO bookorders VALUES(null,?,?,?,?,Now(),?)";
+                                        $stmt=mysqli_prepare($dbc,$q);
+                                        mysqli_stmt_bind_param($stmt,'ssssi',$first_name,$Last_name,$cardT,$cardN,$bookidvar);
+                                        mysqli_stmt_execute($stmt);
+                                        echo mysqli_insert_id($dbc);
+
+                                        $q2="UPDATE bookinventory SET Stock=Stock-1 WHERE Book_ID=?";
+                                        $stm=mysqli_prepare($dbc,$q2);
+                                        mysqli_stmt_bind_param($stm,'i',$bookidvar);
+                                        mysqli_stmt_execute($stm);
+                                
+                                        
+                                    }
+                                    else
+                                    {
+                                        echo '<script>alert("The book :\"' .$item['Book_name']. '\" is not in stock.<br>
+                                        Please try to buy this book some other day.");
+                                        </script>';
+                                    
+                                    }
+
+
+                                }
+                                    session_destroy();
+                                    echo '<script>alert("Thank You! Order Successfully Placed.");
+                                    window.location.href = "Orders.php";</script>';                 
                             }
                             else
                             {
-                                echo '<script>alert("Sorry! No more items in the stock.");
-                                window.location.href = "index.php#bookstore";</script>';
-                            } 
+                                echo '<script>alert("your cart is Empty.");</script>';
+                            }
                         }
-                        else 
+                        else
                         {
-                            echo  '<script>alert("Failed!! All fields are required. ");</script>';                           
-                            echo("<script>location.href = 'checkout.php?Book_ID=$book_id';</script>");
-                            
+                            echo '<script>alert("All fields are required");</script>';
                         }
-                     
-                    }               
+                    }
+             
                 ?>
         </div>
     </section>
