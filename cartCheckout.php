@@ -185,11 +185,8 @@
                                     {
                                         echo '<script>alert("The book :\"' .$item['Book_name']. '\" is not in stock.<br>
                                         Please try to buy this book some other day.");
-                                        </script>';
-                                    
+                                        </script>';                                    
                                     }
-
-
                                 }
                                     session_destroy();
                                     echo '<script>alert("Thank You! Order Successfully Placed.");
